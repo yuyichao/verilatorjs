@@ -5208,6 +5208,7 @@ var dynCall_iiiiiijj = Module["dynCall_iiiiiijj"] = function() {
 // === Auto-generated postamble setup entry stuff ===
 
 Module["callMain"] = callMain;
+Module["FS"] = FS;
 
 var calledRun;
 
