@@ -1643,6 +1643,11 @@ var ASM_CONSTS = {
       throw ptr;
     }
 
+  function setErrNo(value) {
+      HEAP32[((___errno_location())>>2)] = value;
+      return value;
+    }
+  
   var PATH = {splitPath:function(filename) {
         var splitPathRe = /^(\/?|)([\s\S]*?)((?:\.{1,2}|[^\/]+?|)(\.[^.\/]*|))(?:[\/]*)$/;
         return splitPathRe.exec(filename).slice(1);
@@ -3933,21 +3938,6 @@ var ASM_CONSTS = {
       },get64:function(low, high) {
         return low;
       }};
-  function ___syscall_dup3(fd, suggestFD, flags) {try {
-  
-      var old = SYSCALLS.getStreamFromFD(fd);
-      if (old.fd === suggestFD) return -28;
-      return SYSCALLS.doDup(old.path, old.flags, suggestFD);
-    } catch (e) {
-    if (typeof FS === 'undefined' || !(e instanceof FS.ErrnoError)) throw e;
-    return -e.errno;
-  }
-  }
-
-  function setErrNo(value) {
-      HEAP32[((___errno_location())>>2)] = value;
-      return value;
-    }
   function ___syscall_fcntl64(fd, cmd, varargs) {SYSCALLS.varargs = varargs;
   try {
   
@@ -3999,30 +3989,6 @@ var ASM_CONSTS = {
           return -28;
         }
       }
-    } catch (e) {
-    if (typeof FS === 'undefined' || !(e instanceof FS.ErrnoError)) throw e;
-    return -e.errno;
-  }
-  }
-
-  function ___syscall_fstat64(fd, buf) {try {
-  
-      var stream = SYSCALLS.getStreamFromFD(fd);
-      return SYSCALLS.doStat(FS.stat, stream.path, buf);
-    } catch (e) {
-    if (typeof FS === 'undefined' || !(e instanceof FS.ErrnoError)) throw e;
-    return -e.errno;
-  }
-  }
-
-  function ___syscall_fstatat64(dirfd, path, buf, flags) {try {
-  
-      path = SYSCALLS.getStr(path);
-      var nofollow = flags & 256;
-      var allowEmpty = flags & 4096;
-      flags = flags & (~4352);
-      path = SYSCALLS.calculateAt(dirfd, path, allowEmpty);
-      return SYSCALLS.doStat(nofollow ? FS.lstat : FS.stat, path, buf);
     } catch (e) {
     if (typeof FS === 'undefined' || !(e instanceof FS.ErrnoError)) throw e;
     return -e.errno;
@@ -4141,16 +4107,6 @@ var ASM_CONSTS = {
         }
         default: abort('bad ioctl syscall ' + op);
       }
-    } catch (e) {
-    if (typeof FS === 'undefined' || !(e instanceof FS.ErrnoError)) throw e;
-    return -e.errno;
-  }
-  }
-
-  function ___syscall_lstat64(path, buf) {try {
-  
-      path = SYSCALLS.getStr(path);
-      return SYSCALLS.doStat(FS.lstat, path, buf);
     } catch (e) {
     if (typeof FS === 'undefined' || !(e instanceof FS.ErrnoError)) throw e;
     return -e.errno;
@@ -4603,10 +4559,6 @@ var ASM_CONSTS = {
       HEAP32[((ptr)>>2)] = (now/1000)|0; // seconds
       HEAP32[(((ptr)+(4))>>2)] = ((now % 1000)*1000)|0; // microseconds
       return 0;
-    }
-
-  function _proc_exit(code) {
-      procExit(code);
     }
 
   function _setTempRet0(val) {
@@ -5107,14 +5059,10 @@ var asmLibraryArg = {
   "__cxa_allocate_exception": ___cxa_allocate_exception,
   "__cxa_atexit": ___cxa_atexit,
   "__cxa_throw": ___cxa_throw,
-  "__syscall_dup3": ___syscall_dup3,
   "__syscall_fcntl64": ___syscall_fcntl64,
-  "__syscall_fstat64": ___syscall_fstat64,
-  "__syscall_fstatat64": ___syscall_fstatat64,
   "__syscall_getcwd": ___syscall_getcwd,
   "__syscall_getdents64": ___syscall_getdents64,
   "__syscall_ioctl": ___syscall_ioctl,
-  "__syscall_lstat64": ___syscall_lstat64,
   "__syscall_mkdir": ___syscall_mkdir,
   "__syscall_open": ___syscall_open,
   "__syscall_pipe": ___syscall_pipe,
@@ -5134,7 +5082,6 @@ var asmLibraryArg = {
   "fd_seek": _fd_seek,
   "fd_write": _fd_write,
   "gettimeofday": _gettimeofday,
-  "proc_exit": _proc_exit,
   "setTempRet0": _setTempRet0,
   "strftime_l": _strftime_l,
   "system": _system,
