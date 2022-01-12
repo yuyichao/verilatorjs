@@ -1,0 +1,23 @@
+{
+  "name": "verilatorjs",
+  "version": "0.0.0",
+  "description": "Emscripten build of verilator",
+  "main": "dist/verilator.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yuyichao/verilatorjs.git"
+  },
+  "keywords": [
+    "verilator",
+    "emscripten"
+  ],
+  "author": "Yichao Yu",
+  "license": "LGPL-3.0",
+  "bugs": {
+    "url": "https://github.com/yuyichao/verilatorjs/issues"
+  },
+  "homepage": "https://github.com/yuyichao/verilatorjs#readme"
+}
