@@ -1,6 +1,6 @@
 {
   "name": "verilatorjs",
-  "version": "4.220.4",
+  "version": "4.222.4",
   "description": "Emscripten build of verilator",
   "main": "dist/verilator.js",
   "scripts": {
